@@ -1,43 +1,975 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#000000">
-  <link rel="manifest" href="manifest.json">
-  <title>اختبارات</title>
-  <style>
-    * { margin: 0; padding: 0; }
-    html, body {
-      width: 100%; height: 100dvh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .loader {
-      width: 36px; height: 36px;
-      border: 3px solid rgba(255,255,255,0.1);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>عالمنا السحري | محمد ❤️ سلمى</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff5e7c;
+            --primary-dark: #e84c6a;
+            --primary-light: #ff8aa3;
+            --bg-dark: #0f0f1a;
+            --bg-card: rgba(25, 25, 40, 0.85);
+            --gold: #f5b042;
+            --rosegold: #e3a6a1; /* NEW: Rose Gold for numbers */
+            --white: #ffffff;
+            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Smooth Background Gradient */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, #1a1a2e, #0a0a12);
+            z-index: -2;
+        }
+
+        /* Animated Particles Canvas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Music Button */
+        .music-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Pages */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            overflow-y: auto;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 40px 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        /* Login */
+        .login-card {
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-icon {
+            font-size: 65px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 94, 124, 0.5);
+            border-radius: 50px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 94, 124, 0.4);
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 94, 124, 0.4);
+        }
+
+        /* Main Menu */
+        .main-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* --- NEW: Professional Romantic Love Counter --- */
+        .love-counter-professional {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 94, 124, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .counter-header-msg {
+            font-size: 13px;
+            color: var(--rosegold);
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .counter-values-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-unit-pro {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .counter-unit-pro i {
+            color: var(--primary-light);
+            font-size: 14px;
+        }
+
+        .unit-num-pro {
+            color: var(--gold);
+            font-weight: 800;
+            font-size: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        .unit-label-pro {
+            color: var(--white);
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        /* Pulsing animation for the main heart */
+        @keyframes pro-heart-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- */
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 94, 124, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .menu-item i {
+            font-size: 40px;
+            margin-bottom: 12px;
+            display: block;
+            color: var(--primary);
+        }
+
+        .menu-item span {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 50;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Love Letter */
+        .letter-container {
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .letter-card {
+            background: linear-gradient(145deg, rgba(30, 30, 50, 0.9), rgba(20, 20, 40, 0.95));
+            border-radius: 48px;
+            overflow: hidden;
+        }
+
+        .letter-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 40px 25px;
+            text-align: center;
+        }
+
+        .letter-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .letter-body {
+            padding: 35px;
+        }
+
+        .greeting {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .birthday-box {
+            background: rgba(255, 94, 124, 0.15);
+            border-radius: 32px;
+            padding: 30px;
+            text-align: center;
+            margin: 25px 0;
+            border: 1px solid var(--gold);
+        }
+
+        .birthday-box h2 {
+            font-size: 28px;
+            color: var(--gold);
+            margin: 15px 0;
+        }
+
+        .verse-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .verse-badge {
+            background: rgba(0,0,0,0.4);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .msg-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 28px;
+            padding: 25px;
+            margin: 20px 0;
+            border-right: 3px solid var(--primary);
+        }
+
+        .msg-card p {
+            font-size: 17px;
+            line-height: 1.8;
+            margin: 12px 0;
+        }
+
+        /* Gallery */
+        .gallery-container {
+            max-width: 1200px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .gallery-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 28px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-info {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .gallery-info h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+
+        .gallery-info p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Music Player */
+        .music-card {
+            max-width: 550px;
+            width: 100%;
+        }
+
+        .track-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 20px;
+            margin: 18px 0;
+        }
+
+        .track-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 30px;
+        }
+
+        /* Typewriter */
+        .typewriter-card {
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #typing-text {
+            font-size: 20px;
+            line-height: 1.8;
+            min-height: 220px;
+            white-space: pre-line;
+            margin: 20px 0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 20px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 150;
+            border-right: 3px solid var(--primary);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Floating Hearts */
+        .heart-float {
+            position: fixed;
+            bottom: -20px;
+            font-size: 18px;
+            color: var(--primary);
+            pointer-events: none;
+            z-index: 5;
+            animation: floatUp 6s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .card { padding: 30px 20px; }
+            .main-title { font-size: 1.8rem; }
+            .menu-item { padding: 18px 12px; }
+            .menu-item i { font-size: 32px; }
+            .letter-body { padding: 25px; }
+            .greeting { font-size: 22px; }
+            .counter-values-row { gap: 8px; flex-wrap: wrap; }
+            .unit-num-pro { font-size: 18px; }
+            .love-counter-professional { padding: 8px 15px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="loader"></div>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+<div class="bg-gradient"></div>
+<canvas id="particles-canvas"></canvas>
+
+<button class="music-toggle" id="musicToggle" style="display: none;">
+    <i class="fas fa-music"></i>
+</button>
+
+<div id="login-page" class="page active">
+    <div class="card login-card">
+        <i class="fas fa-heart-circle-bolt login-icon"></i>
+        <h2 style="font-size: 26px; margin: 15px 0;">كلمة السر</h2>
+        <p style="color: var(--primary-light);">محمد ❤️ سلمى</p>
+        <input type="password" id="password" class="login-input" placeholder="***" autocomplete="off">
+        <button class="btn" onclick="checkPassword()">دخول إلى قلبك ❤️</button>
+    </div>
+</div>
+
+<div id="message-page" class="page">
+    <div class="card typewriter-card">
+        <i class="fas fa-star-of-life" style="font-size: 50px; color: var(--primary); margin-bottom: 20px;"></i>
+        <div id="typing-text"></div>
+        <button id="enterBtn" class="btn" style="display: none; margin-top: 20px;" onclick="goToMain()">✨ افتح عالمنا ✨</button>
+    </div>
+</div>
+
+<div id="main-page" class="page">
+    <div style="text-align: center; width: 100%; max-width: 550px;">
+        
+        <div class="love-counter-professional">
+            <p class="counter-header-msg">✨ كل لحظة حب منقضية... ✨</p>
+            <div class="counter-values-row">
+                <div class="counter-unit-pro"><i class="fas fa-heart" style="animation: pro-heart-pulse 1.5s infinite;"></i><span class="unit-num-pro" id="days-val">0</span><span class="unit-label-pro">يوم</span></div>
+                <div class="counter-unit-pro"><i class="fas fa-hourglass-half"></i><span class="unit-num-pro" id="hours-val">0</span><span class="unit-label-pro">ساعة</span></div>
+                <div class="counter-unit-pro"><i class="fas fa-history"></i><span class="unit-num-pro" id="minutes-val">0</span><span class="unit-label-pro">دقيقة</span></div>
+                <div class="counter-unit-pro"><i class="fas fa-heartbeat" style="animation: pro-heart-pulse 0.8s infinite;"></i><span class="unit-num-pro" id="seconds-val">0</span><span class="unit-label-pro">ثانية</span></div>
+            </div>
+        </div>
+        <h1 class="main-title">عالمنا السحري ❤️</h1>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="openPage('love-letter')">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>رسالتي ❤️</span>
+            </div>
+            <div class="menu-item" onclick="openPage('music-page')">
+                <i class="fas fa-headphones"></i>
+                <span>أغانينا 🎵</span>
+            </div>
+            <div class="menu-item" onclick="openPage('gallery-page')">
+                <i class="fas fa-images"></i>
+                <span>معرض الحب 📸</span>
+            </div>
+            <div class="menu-item" onclick="location.reload()">
+                <i class="fas fa-moon"></i>
+                <span>خروج 🌙</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="love-letter" class="page">
+    <button class="back-btn" onclick="goToMain()"><i class="fas fa-arrow-right"></i> رجوع</button>
+    <div class="letter-container">
+        <div class="letter-card">
+            <div class="letter-header">
+                <h1>💌 رسالة من القلب 💌</h1>
+                <p>🕊️ إلى حبيبتي سلمى 🕊️</p>
+            </div>
+            <div class="letter-body">
+                <div class="greeting">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>إلى أغلى إنسانة في الوجود</span>
+                </div>
+
+                <div class="birthday-box">
+                    <i class="fas fa-birthday-cake" style="font-size: 45px;"></i>
+                    <h2>🎂 عيد ميلاد حبيبتي سلمى 🎂</h2>
+                    <p>💍 كل سنة وأنتي طيبة يا أجمل هدية في حياتي ❤️</p>
+                    <div class="verse-items">
+                        <span class="verse-badge"><i class="fas fa-heart"></i> كل سنة وانتي حياتي</span>
+                        <span class="verse-badge"><i class="fas fa-star"></i> كل سنة وانتي نور عيني</span>
+                        <span class="verse-badge"><i class="fas fa-moon"></i> كل سنة وانتي حبيبتي</span>
+                        <span class="verse-badge"><i class="fas fa-feather-alt"></i> كل سنة وانتي روحي</span>
+                        <span class="verse-badge"><i class="fas fa-globe"></i> كل سنة وانتي أغلى ما في الحياة</span>
+                    </div>
+                </div>
+
+                <div class="msg-card">
+                    <p>اللهم إني أستودعك عاماً مضى من عمرها 🙌🏻 وعاماً قادم 🤲🏻 ربي إنها غالية على قلبي .. ❤️💛</p>
+                    <p>كل سنة وانتي طيبة وكل سنة وانتي دايماً مبسوطة وفرحانه 🎂 عيد ميلاد أجمل وأحسن حاجة في حياتي ❤️❤️</p>
+                </div>
+
+                <div class="msg-card">
+                    <p>خطيبتي وحبيبتي في الواقع مبحبش أكتب بوستات عيد ميلاد لحد وأرغي فيه بس انتي تستاهلي كلام كتيررررر أوووووي ❤️</p>
+                    <p>نوسع كدا النهاردة عيد ميلاد حبيبتي 😘 🌹 أم ضحكة تجنن 😋 ويارب ضحكتك الجميلة دي ديماً تكون مرسومة على وشك 💋❤️</p>
+                    <p>😍 خطيبتي وبنتي وحبيبتي 🌸❤️ 😋 💖🤩 وقطعة من قلبي</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px dashed rgba(255,255,255,0.2);">
+                    <i class="fas fa-heart" style="color: var(--primary);"></i> <i class="fas fa-heart" style="color: var(--primary);"></i> <i class="fas fa-heart" style="color: var(--primary);"></i>
+                    <p style="font-size: 18px; margin-top: 15px;">دائماً معك،</p>
+                    <p style="font-size: 28px; font-weight: bold; color: var(--primary);">محمد ❤️</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="gallery-page" class="page">
+    <button class="back-btn" onclick="goToMain()"><i class="fas fa-arrow-right"></i> رجوع</button>
+    <div class="gallery-container">
+        <h2 style="text-align: center; font-size: 28px; margin-bottom: 20px;">📸 معرض الذكريات الجميلة 📸</h2>
+        <p style="text-align: center; margin-bottom: 20px;">لحظات حب لا تُنسى مع حبيبتي سلمى</p>
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+</div>
+
+<div id="music-page" class="page">
+    <button class="back-btn" onclick="goToMain()"><i class="fas fa-arrow-right"></i> رجوع</button>
+    <div class="card music-card">
+        <i class="fas fa-music" style="font-size: 50px; color: var(--primary); display: block; text-align: center; margin-bottom: 20px;"></i>
+        <h3 style="text-align: center; margin-bottom: 25px;">🎵 أغانينا الرومانسية 🎵</h3>
+        
+        <div class="track-item">
+            <div class="track-title"><i class="fas fa-heart"></i> عمرو دياب - يا أنا يا لأ</div>
+            <audio controls preload="metadata">
+                <source src="https://s5files.mobeasy.com/static/u/1732857/file-1732857-381027.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <div class="track-item">
+            <div class="track-title"><i class="fas fa-heart"></i> تامر حسني - بحبك وحشتيني</div>
+            <audio controls preload="metadata">
+                <source src="https://archive.org/download/tamer-hosny-bahebak-wehashteny/Tamer%20Hosny%20-%20Bahebak%20Wehashteny.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <div class="track-item">
+            <div class="track-title"><i class="fas fa-heart"></i> شيرين عبد الوهاب - مشاعر</div>
+            <audio controls preload="metadata">
+                <source src="https://archive.org/download/sherine-mashaer/Sherine%20-%20Mashaer.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+</div>
+
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <div class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    <img id="modalImage" src="" alt="">
+</div>
+
+<script>
+    // Gallery Data
+    const galleryImages = [
+        {
+            src: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiH5Tji4WfG5r2d_T0XAd2LBBNB28t2dhFqJAcbR5JSpyMqqNB6IbugiC2Vos-2smWIa3tMpA7kEHf3iMcHSsbmkZUw9I1AwP-ocTRnlzLDJWjCb8eH5m2cRXiWpIa-O6a1bOSdyB9hUg-FepVa9QPjTs8Co6nX0_GDnednjERDFmN1quZbkIbW5wQjh2I/s1024/103777.png',
+            title: '❤️ لحظة حب خالدة ❤️',
+            desc: 'كل لحظة معاكي هي أجمل لحظة في حياتي'
+        },
+        {
+            src: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiH5Tji4WfG5r2d_T0XAd2LBBNB28t2dhFqJAcbR5JSpyMqqNB6IbugiC2Vos-2smWIa3tMpA7kEHf3iMcHSsbmkZUw9I1AwP-ocTRnlzLDJWjCb8eH5m2cRXiWpIa-O6a1bOSdyB9hUg-FepVa9QPjTs8Co6nX0_GDnednjERDFmN1quZbkIbW5wQjh2I/s1024/103777.png',
+            title: '💕 أنتِ عالمي 💕',
+            desc: 'أنتِ كل شيء جميل في حياتي'
+        }
+    ];
+
+    function loadGallery() {
+        const grid = document.getElementById('galleryGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        galleryImages.forEach((img, i) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `
+                <img src="${img.src}" alt="${img.title}" loading="lazy">
+                <div class="gallery-info">
+                    <h3>${img.title}</h3>
+                    <p>${img.desc}</p>
+                    <small style="color: var(--primary);"><i class="fas fa-search-plus"></i> اضغط للتكبير</small>
+                </div>
+            `;
+            item.onclick = () => openModal(img.src);
+            grid.appendChild(item);
+        });
     }
 
-    // فتح الرابط مباشرة عبر JavaScript
-    window.location.replace('https://elgoharymd.github.io/Link/');
-  </script>
+    // Music
+    let bgMusic = null;
+    let isPlaying = false;
+
+    function initMusic() {
+        bgMusic = new Audio('https://s5files.mobeasy.com/static/u/1732857/file-1732857-886878.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.4;
+    }
+
+    function startMusic() {
+        if (bgMusic && !isPlaying) {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                const btn = document.getElementById('musicToggle');
+                btn.style.display = 'flex';
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.classList.add('playing');
+                showToast('صوت الحب♥️🎧');
+            }).catch(() => {
+                document.getElementById('musicToggle').style.display = 'flex';
+                showToast('🎵 اضغط على الأيقونة لتشغيل الموسيقى');
+            });
+        }
+    }
+
+    function toggleMusic() {
+        if (!bgMusic) initMusic();
+        if (isPlaying) {
+            bgMusic.pause();
+            isPlaying = false;
+            document.getElementById('musicToggle').innerHTML = '<i class="fas fa-music"></i>';
+            showToast('⏸️ تم إيقاف الموسيقى');
+        } else {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                document.getElementById('musicToggle').innerHTML = '<i class="fas fa-play"></i>';
+                showToast('🎵 تم تشغيل الموسيقى');
+            }).catch(() => showToast('⚠️ حدث خطأ في تشغيل الموسيقى'));
+        }
+    }
+
+    function showToast(msg) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+
+    initMusic();
+
+    // Particles Animation (Lightweight)
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    function createParticles() {
+        particles = [];
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                alpha: Math.random() * 0.5 + 0.2,
+                speed: Math.random() * 0.3 + 0.1
+            });
+        }
+    }
+    
+    function animateParticles() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 94, 124, ${p.alpha})`;
+            ctx.fill();
+            p.y -= p.speed;
+            if (p.y < 0) p.y = canvas.height;
+        }
+        requestAnimationFrame(animateParticles);
+    }
+    
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        createParticles();
+    });
+    
+    resizeCanvas();
+    createParticles();
+    animateParticles();
+
+    // Floating Hearts
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart-float';
+        heart.innerHTML = '<i class="fas fa-heart"></i>';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.fontSize = (Math.random() * 18 + 14) + 'px';
+        heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 500);
+
+    // Navigation
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        const target = document.getElementById(id);
+        target.classList.add('active');
+        if (id === 'gallery-page') loadGallery();
+    }
+
+    function openPage(id) { showPage(id); }
+    function goToMain() { showPage('main-page'); }
+
+    // Login
+    function checkPassword() {
+        const pass = document.getElementById('password').value;
+        if (pass === "1042011") {
+            startMusic();
+            startLoveCounter(); // Start counter on login
+            showPage('message-page');
+            typeWriter("✨ مرحباً يا روحي سلمى ✨\n\nلقد فتحتِ قلبي بكلمة السر...\nالآن افتحي عينيكِ على عالم من الحب ❤️\n\nأحبكِ أكثر مما تتخيلين ❤️\n\nكل سنة وانتي طيبة يا أجمل حاجة في حياتي 🎂💍");
+        } else {
+            alert("💔 الباسوورد خطأ يا حبيبتي! جربي تاني 💔");
+            const input = document.getElementById('password');
+            input.style.transform = 'translateX(5px)';
+            setTimeout(() => input.style.transform = '', 200);
+        }
+    }
+
+    function typeWriter(text) {
+        let i = 0;
+        const target = document.getElementById('typing-text');
+        target.innerHTML = '';
+        function type() {
+            if (i < text.length) {
+                target.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, 50);
+            } else {
+                document.getElementById('enterBtn').style.display = 'block';
+            }
+        }
+        type();
+    }
+
+    // Modal
+    function openModal(src) {
+        const modal = document.getElementById('imageModal');
+        const img = document.getElementById('modalImage');
+        modal.style.display = 'flex';
+        img.src = src;
+    }
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // --- NEW: Professional Romantic Love Counter Logic ---
+    function startLoveCounter() {
+        // ضع تاريخ التعارف أو الزواج هنا (السنة, الشهر "يبدأ من 0", اليوم)
+        // مثال: 15 أكتوبر 2023 تكتب هكذا: new Date(2023, 9, 15)
+        const startDate = new Date(2023, 9, 15, 0, 0, 0); 
+
+        function updateValues() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            // Smooth fade-out of old values, then fade-in new ones
+            animateValueUpdate('days-val', days);
+            animateValueUpdate('hours-val', hours);
+            animateValueUpdate('minutes-val', minutes);
+            animateValueUpdate('seconds-val', seconds);
+        }
+
+        // Helper function for smooth value updates
+        function animateValueUpdate(id, newValue) {
+            const element = document.getElementById(id);
+            if (element.innerText != newValue) {
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    element.innerText = newValue;
+                    element.style.opacity = '1';
+                }, 150);
+            }
+        }
+
+        updateValues(); // Initial call
+        setInterval(updateValues, 1000); // Update every second
+    }
+    // ---
+
+    // Music Toggle Event
+    document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+</script>
 </body>
 </html>
+
